@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-disallowlister` will be documented in this file
 
+## 0.2.1 2021-08-23
+- readme
+
 ## 0.2.0 2021-08-23
 - Added validation rule `disallowlister`
 
