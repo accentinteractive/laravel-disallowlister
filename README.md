@@ -11,6 +11,8 @@ Effortlessly test strings against any array of disallowed strings. Supports `fnm
 
 This Laravel-specific package tests a string against a disallowlist. It is a Laravel implementation of the platform agnostic `accentinteractive/disallowlister`.
 
+If you are looking for a framework agnostic implementation, see https://github.com/accentinteractive/disallowlister
+
 For a list of all options, see [https://github.com/accentinteractive/disallowlister#readme](https://github.com/accentinteractive/disallowlister#readme). 
 
 The `isDisallowed()` method can use wildcards, like * and ?. 
