@@ -2,6 +2,8 @@
 
 Effortlessly test strings against any array of disallowed strings. Supports `fnmatch` wildcards, like * and ?. 
 
+`accentinteractive/disallowlister` contains both a facade `Disallowlister` and custom validation rule `disallowlister`. You can set a default array of disallowed strings in config, or add and remove disallowed strings using `Disallowlister:add()` and `Disallowlister:remove()`
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/accentinteractive/laravel-disallowlister.svg?style=flat-square)](https://packagist.org/packages/accentinteractive/laravel-disallowlister)
 [![Build Status](https://img.shields.io/travis/accentinteractive/laravel-disallowlister/master.svg?style=flat-square)](https://travis-ci.org/accentinteractive/laravel-disallowlister)
 [![Quality Score](https://img.shields.io/scrutinizer/g/accentinteractive/laravel-disallowlister.svg?style=flat-square)](https://scrutinizer-ci.com/g/accentinteractive/laravel-disallowlister)
@@ -51,6 +53,15 @@ use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;
 Disallowlister::add('*foo*');
 Disallowlister::add(['bar', 'b?t']);
 ```
+
+### Use the disallowlister validation rule
+```php
+// Use the custom disallowlist validator
+$rules = [
+    'user_input' => 'disallowlister'
+];
+```
+
 ### Use the class directly
 ```php
 use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;

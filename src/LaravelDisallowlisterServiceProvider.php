@@ -21,6 +21,8 @@ class LaravelDisallowlisterServiceProvider extends ServiceProvider
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
+        $this->createDisallowListValidation();
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/disallowlister.php' => config_path('disallowlister.php'),
@@ -56,6 +58,13 @@ class LaravelDisallowlisterServiceProvider extends ServiceProvider
 
         $this->app->singleton('Disallowlister', function () {
             return (new LaravelDisallowlister(config('disallowlister.disallowed_strings')));
+        });
+    }
+
+    protected function createDisallowListValidation(): void
+    {
+        Validator::extend('disallowlister', function ($attribute, $value, $parameters) {
+            return ! Disallowlister::isDisallowed($value);
         });
     }
 }
