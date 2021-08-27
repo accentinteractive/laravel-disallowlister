@@ -26,7 +26,7 @@ class LaravelDisallowlisterTest extends TestCase
     /** @test */
     public function it_can_perform_disallowlister_tests ()
     {
-        config(['disallowlister.disallowed_strings' => ['*foo*']]);
+        config(['disallowlister.lists.default' => ['*foo*']]);
 
         $this->assertTrue(Disallowlister::isDisallowed('foo'));
         $this->assertTrue(Disallowlister::isDisallowed('footer'));
@@ -34,5 +34,15 @@ class LaravelDisallowlisterTest extends TestCase
         $this->assertFalse(Disallowlister::isDisallowed('bar'));
     }
 
+    /** @test */
+    public function it_can_specify_a_named_disallowList ()
+    {
+        config(['disallowlister.lists.default' => ['*foo*']]);
+        config(['disallowlister.lists.mylist' => ['*bar*']]);
+
+        $disallowlister = DisallowLister::setDisallowList(config('disallowlister.lists.mylist'));
+        $this->assertTrue($disallowlister->isDisallowed('bars'));
+        $this->assertFalse($disallowlister->isDisallowed('footer'));
+    }
 
 }

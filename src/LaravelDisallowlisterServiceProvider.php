@@ -3,11 +3,12 @@
 namespace Accentinteractive\LaravelDisallowlister;
 
 use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use \Illuminate\Support\Facades\Validator;
 
 class LaravelDisallowlisterServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap the application services.
      */
@@ -25,7 +26,7 @@ class LaravelDisallowlisterServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/disallowlister.php' => config_path('disallowlister.php'),
+                __DIR__ . '/../config/disallowlister.php' => config_path('disallowlister.php'),
             ], 'config');
 
             // Publishing the views.
@@ -54,17 +55,22 @@ class LaravelDisallowlisterServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/disallowlister.php', 'disallowlister');
+        $this->mergeConfigFrom(__DIR__ . '/../config/disallowlister.php', 'disallowlister');
 
         $this->app->singleton('Disallowlister', function () {
-            return (new LaravelDisallowlister(config('disallowlister.disallowed_strings')));
+            return (new LaravelDisallowlister(config('disallowlister.lists.default')));
         });
     }
 
     protected function createDisallowListValidation(): void
     {
         Validator::extend('disallowlister', function ($attribute, $value, $parameters) {
-            return ! Disallowlister::isDisallowed($value);
+            $listName = ! empty($parameters[0]) ? $parameters[0] : LaravelDisallowlister::DEFAULT_LIST;
+            $defaultdisallowedStrings = config('disallowlister.lists.' . LaravelDisallowlister::DEFAULT_LIST);
+            $disallowedStrings = config('disallowlister.lists.' . $listName, $defaultdisallowedStrings);
+
+            return Disallowlister::setDisallowList($disallowedStrings)
+                                 ->isDisallowed($value) == false;
         });
     }
 }

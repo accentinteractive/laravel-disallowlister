@@ -42,25 +42,26 @@ php artisan vendor:publish --provider="Accentinteractive\LaravelDisallowlister\L
 
 ## Usage
 
-### Set the default disallowlist
+### Set the disallowlist in config
 1. Publish the config file, running `php artisan vendor:publish --provider="Accentinteractive\LaravelDisallowlister\LaravelDisallowlisterServiceProvider" --tag="config"`
-2. Set an array of disalllowed strings in `disallowlister.disallowed_strings`
-
-Alternatively, you can set the default disallowlist on the fly using `config(['disallowlister.disallowed_strings' => ['foo', 'bar*']);` 
-
-### Add items to the disallowlist an remove them
-```php
-use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;
-
-Disallowlister::add('*foo*');
-Disallowlister::add(['bar', 'b?t']);
-```
+2. Set an default array of disalllowed strings in `disallowlister.lists.default`
+3. If you wish to use more than one disallowlist, you can add additional arrays of disalllowed strings to `disallowlister.lists`, like `disallowlister.lists.my_list`
 
 ### Use the disallowlister validation rule
+By default, the validator uses the default disallow list. 
 ```php
-// Use the custom disallowlist validator
+// Use the disallowlist validator with the default disallowlist. 
 $rules = [
     'user_input' => 'disallowlister'
+];
+```
+
+However, you can also pass to the validator which disallowlist to use.
+```php
+// Use the disallowlist validator with the my_list disallowlist. 
+$rules = [
+    'user_input' => 'disallowlister:default',
+    'user_emails' => 'disallowlister:my_email_list'
 ];
 ```
 
@@ -68,10 +69,18 @@ $rules = [
 ```php
 use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;
 
-DisallowLister::addItem('foo')
-                ->addItem(['*bar*', 'b?t'])
-                ->isDisallowed('My favorite bars');
+// Call the facade directly, using the default disallowlist
+DisallowLister::isDisallowed('Earn $4,000 A DAY working from HOME!!!');
 
+// Call the facade directly, using a specific disallowlist
+DisallowLister::setDisallowList(config('disallowlister.lists.mylist'))
+              ->isDisallowed('Earn $4,000 A DAY working from HOME!!!');
+
+// Add and remove items on the facade
+DisallowLister::add('foo')
+              ->add(['*bar*', 'b?t'])
+              ->remove('b?t')
+              ->isDisallowed('Earn $4,000 A DAY working from HOME!!!');
 ```
 
 ### Testing
