@@ -65,6 +65,18 @@ $rules = [
 ];
 ```
 
+### Case sensitivity
+By default, matching is not case sensitive. You can set case sensitivity in confg
+```php
+config(['disallowlister.is_case_sensitive' => true]);
+```
+
+### Whole word checking
+By default the entire string is checked. You can set to check word for word in config. 
+```php
+config(['disallowlister.match_word_for_word' => true]);
+```
+
 ### Use the class directly
 ```php
 use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;

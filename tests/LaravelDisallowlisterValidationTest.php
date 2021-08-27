@@ -65,4 +65,30 @@ class LaravelDisallowlisterValidationTest extends TestCase
         $validator = $this->app['validator']->make($data, $rules);
         $this->assertFalse($validator->passes());
     }
+
+    /** @test */
+    public function it_can_set_case_sensitivity_in_config ()
+    {
+        config(['disallowlister.lists.default' => ['foo']]);
+        config(['disallowlister.is_case_sensitive' => true]);
+
+        $rules = ['field1' => 'disallowlister'];
+        $data = ['field1' => 'FOO'];
+
+        $validator = $this->app['validator']->make($data, $rules);
+        $this->assertTrue($validator->passes());
+    }
+
+    /** @test */
+    public function it_can_set_word_for_word_in_config ()
+    {
+        config(['disallowlister.lists.default' => ['foo']]);
+        config(['disallowlister.match_word_for_word' => true]);
+
+        $rules = ['field1' => 'disallowlister'];
+        $data = ['field1' => 'foo bar'];
+
+        $validator = $this->app['validator']->make($data, $rules);
+        $this->assertFalse($validator->passes());
+    }
 }

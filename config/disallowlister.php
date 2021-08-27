@@ -13,4 +13,6 @@ return [
         // If no list name is passed to validation, list 'default' is used.
         'default' => [],
     ],
+    'is_case_sensitive' => false,
+    'match_word_for_word' => false,
 ];

@@ -58,7 +58,9 @@ class LaravelDisallowlisterServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/disallowlister.php', 'disallowlister');
 
         $this->app->singleton('Disallowlister', function () {
-            return (new LaravelDisallowlister(config('disallowlister.lists.default')));
+            return (new LaravelDisallowlister(config('disallowlister.lists.default')))
+                ->caseSensitive(config('disallowlister.is_case_sensitive'))
+                ->setWordForWord(config('disallowlister.match_word_for_word'));
         });
     }
 
