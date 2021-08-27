@@ -2,7 +2,6 @@
 
 namespace Accentinteractive\LaravelDisallowlister\Tests;
 
-use Accentinteractive\LaravelDisallowlister\Rules\Disallowlist;
 use Artisan;
 use Config;
 use Accentinteractive\LaravelDisallowlister\Facades\Disallowlister;
@@ -23,11 +22,11 @@ class LaravelDisallowlisterValidationTest extends TestCase
     {
         config(['disallowlister.disallowed_strings' => ['*foo*']]);
 
-        $rule = new Disallowlist();
+        $rules = ['field1' => 'disallowlister'];
+        $data = ['field1' => 'barefoot',];
 
-        $this->assertFalse($rule->passes('some_attribute', 'foo'));
-        $this->assertFalse($rule->passes('some_attribute', 'footer'));
-        $this->assertFalse($rule->passes('some_attribute', 'barefoot'));
+        $validator = $this->app['validator']->make($data, $rules);
+        $this->assertFalse($validator->passes());
     }
 
     /** @test */
@@ -35,8 +34,10 @@ class LaravelDisallowlisterValidationTest extends TestCase
     {
         config(['disallowlister.disallowed_strings' => ['*foo*']]);
 
-        $rule = new Disallowlist();
+        $rules = ['field1' => 'disallowlister'];
+        $data = ['field1' => 'fo',];
 
-        $this->assertTrue($rule->passes('some_attribute', 'bar'));
+        $validator = $this->app['validator']->make($data, $rules);
+        $this->assertTrue($validator->passes());
     }
 }
