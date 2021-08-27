@@ -1,6 +1,6 @@
 {
     "name": "accentinteractive/laravel-disallowlister",
-    "description": "Validate user input and other data against one or multiple disallowlists. Use the built-in Laravel validator or call the DisallowLister facade directly. Multiple disallowlists can be set in config or passed directly.",
+    "description": "Validate data against one or multiple disallowlists, using the built-in Laravel validator or by calling the facade directly. Supports wildcards.",
     "keywords": [
         "accentinteractive",
         "laravel-disallowlister"
