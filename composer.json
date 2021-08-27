@@ -1,6 +1,6 @@
 {
     "name": "accentinteractive/laravel-disallowlister",
-    "description": "Keep your laravel logs small and tidy.",
+    "description": "Validate user input and other data against one or multiple disallowlists. Use the built-in Laravel validator or call the DisallowLister facade directly. Multiple disallowlists can be set in config or passed directly.",
     "keywords": [
         "accentinteractive",
         "laravel-disallowlister"
