@@ -1,6 +1,6 @@
 {
     "name": "accentinteractive/laravel-disallowlister",
-    "description": "Keep your laravel logs small and tidy.",
+    "description": "Validate data against one or multiple disallowlists, using the built-in Laravel validator or by calling the facade directly. Supports wildcards.",
     "keywords": [
         "accentinteractive",
         "laravel-disallowlister"
